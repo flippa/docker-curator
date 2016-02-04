@@ -1,12 +1,13 @@
-REGISTRY    ?= quay.io/flippa
-PROJECT     ?= curator
+REPOSITORY   = flippa/curator
 TAG         ?= v1
-IMAGE       = $(REGISTRY)/$(PROJECT):$(TAG)
+IMAGE        = $(REPOSITORY):$(TAG)
+LATEST       = $(REPOSITORY):latest
 
-.PHONY: image
 image: Dockerfile
 	docker build --rm -t $(IMAGE) .
+	docker tag -f $(IMAGE) $(LATEST)
 
 .PHONY: push
 push:
 	docker push $(IMAGE)
+	docker push $(LATEST)
